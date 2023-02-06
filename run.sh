@@ -1,25 +1,37 @@
 #!/bin/bash
 
-#debug="no"
-
+debug=0
 device="md1"
+bs="1M"
+runtime=900
+
+while [[ "$#" -gt 0 ]]; do
+	case $1 in
+		-t|--test) debug=1 ;;
+		-d|--device) device="$2"; shift ;;
+		-b|--block) bs="$2"; shift ;;
+		*) ;;
+	esac
+	shift
+done
+
+dirname="$device-$bs-$runtime"
+mkdir $dirname
 
 init () {
 	rw="read"
-	bs="1M"
 	iodepth=16
-	if [[ -z $debug ]]; then
-		runtime=3
-	else
-		runtime=900
-	fi
 }
 
 run_fio() {
 	long_iodepth=$(printf "%03d" $iodepth)
 	filename="$rw-$device-$bs-$long_iodepth-$runtime.txt"
+	if [[ $debug -eq 0 ]]; then
+		rw=$rw device=$device runtime=$runtime bs=$bs iodepth=$iodepth fio config.fio > "$dirname/$filename"
+	else
+		touch "$dirname/$filename"
+	fi
 	echo $filename
-	rw=$rw device=$device runtime=$runtime bs=$bs iodepth=$iodepth fio config.fio > $filename
 }
 
 iodepth_test () {

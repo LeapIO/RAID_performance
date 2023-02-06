@@ -19,10 +19,19 @@ sudo mdadm --create --verbose /dev/md1 --level=5 --raid-devices=3 /dev/nvme2n1 /
 sudo mdadm -D /dev/md0
 ```
 
-## run test
+## test without running
+
+```shell
+./run.sh -t
+./run.sh --test
+```
+
+## run tests
 
 ```shell
 sudo nohup ./run.sh > done.txt &
+sudo nohup ./run.sh -d md0 -b 1M > done.txt &
+sudo nohup ./run.sh --device md0 --block 1M > done.txt &
 ```
 
 ## parse result
