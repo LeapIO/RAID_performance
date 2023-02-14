@@ -1,5 +1,7 @@
 #!/bin/bash
 
+counter=0
+
 debug=0
 device="md1"
 bs="1M"
@@ -24,6 +26,7 @@ init () {
 }
 
 run_fio() {
+	let counter+=1
 	long_iodepth=$(printf "%03d" $iodepth)
 	filename="$rw-$device-$bs-$long_iodepth-$runtime.txt"
 	if [[ $debug -eq 0 ]]; then
@@ -31,7 +34,7 @@ run_fio() {
 	else
 		touch "$dirname/$filename"
 	fi
-	echo $filename
+	echo -e "$counter\t$filename"
 }
 
 iodepth_test () {
