@@ -10,7 +10,7 @@ sudo mdadm --remove /dev/md0
 
 ```shell
 sudo mdadm --zero-superblock /dev/nvme2n1 /dev/nvme3n1 /dev/nvme4n1
-sudo mdadm --create --verbose /dev/md1 --level=5 --raid-devices=3 /dev/nvme2n1 /dev/nvme3n1 /dev/nvme4n1
+sudo mdadm --create --verbose --assume-clean /dev/md1 --level=5 --raid-devices=3 /dev/nvme2n1 /dev/nvme3n1 /dev/nvme4n1
 ```
 
 ## check RAID details
